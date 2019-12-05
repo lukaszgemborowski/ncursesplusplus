@@ -34,7 +34,7 @@ int main()
         )
     };
 
-    vs.resize(rect_i{{0, 0}, {40, 25}});
+    vs.resize(sess.size());
 
     sess.refresh();
 

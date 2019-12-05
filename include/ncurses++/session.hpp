@@ -1,6 +1,8 @@
 #ifndef NCURSESPP_SESSION_HPP
 #define NCURSESPP_SESSION_HPP
 
+#include <ncurses++/rect.hpp>
+
 namespace ncursespp
 {
 
@@ -17,6 +19,7 @@ public:
     session& operator=(session &&) = delete;
 
     void refresh();
+    rect_i size() const;
 };
 
 } // namespace ncursespp
