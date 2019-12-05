@@ -13,7 +13,7 @@ text_list_base::text_list_base(short c1, short c2, short s)
 {
 }
 
-void text_list_base::resize(rect_i r)
+void text_list_base::draw_one(rect_i r, int line) const
 {
     auto h = r.height();
     auto x = r.left_top.x;
@@ -29,13 +29,20 @@ void text_list_base::resize(rect_i r)
             return color2_;
     };
 
+    text_base t{items_[line], color(line)};
+    t.resize(
+        rect_i {
+            {x, y + line}, {x2, y + line}
+        }
+    );
+}
+
+void text_list_base::do_resize(rect_i r)
+{
+    auto h = r.height();
+
     for (int line = 0; line < h && line < items_.size(); ++line) {
-        text_base t{items_[line], color(line)};
-        t.resize(
-            rect_i {
-                {x, y + line}, {x2, y + line}
-            }
-        );
+        draw_one(r, line);
     }
 }
 
@@ -53,8 +60,13 @@ void text_list_base::append(std::initializer_list<std::string> items)
 
 void text_list_base::select(int idx)
 {
-    if (idx >= 0 && idx < items_.size())
+    if (idx >= 0 && idx < items_.size()) {
+        auto old = selected_;
         selected_ = idx;
+
+        draw_one(size(), old);
+        draw_one(size(), idx);
+    }
 }
 
 int text_list_base::selected() const

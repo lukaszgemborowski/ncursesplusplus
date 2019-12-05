@@ -11,6 +11,11 @@ namespace ncursespp
 template<class T>
 struct point
 {
+    point ()
+        : x{}
+        , y{}
+    {}
+
     point (T x, T y)
         : x {x}
         , y {y}
@@ -23,6 +28,11 @@ struct point
 template<class T>
 struct rect
 {
+    rect()
+        : left_top{}
+        , right_bottom{}
+    {}
+
     rect(point<T> left_top, point<T> right_bottom)
         : left_top {left_top}
         , right_bottom {right_bottom}

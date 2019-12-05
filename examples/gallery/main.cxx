@@ -57,8 +57,6 @@ int main()
         } else if (c == 'w') {
             list.select(list.selected() - 1);
         }
-
-        vs.resize(sess.size());
     }
 
     return 0;
