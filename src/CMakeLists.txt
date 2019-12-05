@@ -5,6 +5,7 @@ set(
     session.cxx
     color_rect.cxx
     palette.cxx
+    text.cxx
 )
 
 add_library(

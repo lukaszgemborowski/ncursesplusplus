@@ -2,7 +2,7 @@
 #include <ncurses++/hsplit.hpp>
 #include <ncurses++/color_rect.hpp>
 #include <ncurses++/session.hpp>
-
+#include <ncurses++/text.hpp>
 #include <ncurses++/palette.hpp>
 
 #include <unistd.h> // pause()
@@ -13,9 +13,10 @@ int main()
     session sess;
 
     auto pal = palette {
-        color_pair{1_idx, color::red, color::white},
+        color_pair{1_idx, color::black, color::white},
         color_pair{2_idx, color::black, color::yellow},
-        color_pair{3_idx, color::red, color::red}
+        color_pair{3_idx, color::yellow, color::green},
+        color_pair{4_idx, color::blue, color::magenta}
     };
 
     auto hs = hsplit {
@@ -26,11 +27,21 @@ int main()
         )
     };
 
+    auto items = hsplit {
+        constraint::fill {},
+        std::make_tuple(
+            text{constraint::fixed<1>{}, "foo1", 3},
+            text{constraint::fixed<1>{}, "foo2", 4},
+            text{constraint::fixed<1>{}, "foo3", 3},
+            text{constraint::fixed<1>{}, "foo4", 4}
+        )
+    };
+
     auto vs = vsplit {
         constraint::fill {},
         std::make_tuple(
             hs,
-            color_rect{constraint::fill{}, pal.get(3_idx)}
+            items
         )
     };
 

@@ -4,7 +4,11 @@
 namespace ncursespp
 {
 
-
+class application
+{
+public:
+private:
+};
 
 } // namespace ncursespp
 
