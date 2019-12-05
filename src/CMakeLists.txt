@@ -6,6 +6,7 @@ set(
     color_rect.cxx
     palette.cxx
     text.cxx
+    text_list.cxx
 )
 
 add_library(

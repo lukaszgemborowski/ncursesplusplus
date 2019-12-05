@@ -17,8 +17,8 @@ public:
     using constraint_t = Size;
     static constexpr auto count = std::tuple_size<Collection>::value;
 
-    hsplit(Size, Collection splits)
-        : splits {splits}
+    hsplit(Size, Collection &&splits)
+        : splits {std::move(splits)}
     {}
 
     void resize(rect_i size)

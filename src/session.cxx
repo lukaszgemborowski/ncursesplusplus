@@ -32,4 +32,9 @@ rect_i session::size() const
     return {{0, 0}, {x, y}};
 }
 
+int session::getkey() const
+{
+    return ::getch();
+}
+
 } // namespace ncursespp

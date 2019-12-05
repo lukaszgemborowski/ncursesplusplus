@@ -20,6 +20,7 @@ public:
 
     void refresh();
     rect_i size() const;
+    int getkey() const;
 };
 
 } // namespace ncursespp
