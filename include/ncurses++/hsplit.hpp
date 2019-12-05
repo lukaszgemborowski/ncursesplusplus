@@ -9,6 +9,7 @@
 namespace ncursespp
 {
 
+// TODO: commonize code from hsplit and vsplit
 template<class Size, class Collection>
 class hsplit
 {

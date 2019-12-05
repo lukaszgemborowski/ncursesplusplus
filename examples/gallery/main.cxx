@@ -15,6 +15,7 @@ int main()
     auto pal = palette {
         color_pair{1_idx, color::black, color::white},
         color_pair{2_idx, color::black, color::yellow},
+        color_pair{5_idx, color::black, color::blue},
         color_pair{3_idx, color::yellow, color::green},
         color_pair{4_idx, color::blue, color::magenta}
     };
@@ -22,7 +23,7 @@ int main()
     auto hs = hsplit {
         constraint::fixed<15> {},
         std::make_tuple(
-            color_rect{constraint::fixed<2>{}, pal.get(1_idx)},
+            color_rect{constraint::fixed<4>{}, pal.get(1_idx)},
             color_rect{constraint::fill{}, pal.get(2_idx)}
         )
     };
@@ -41,6 +42,7 @@ int main()
         constraint::fill {},
         std::make_tuple(
             hs,
+            color_rect{constraint::fixed<3>{}, pal.get(5_idx)},
             items
         )
     };

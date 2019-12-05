@@ -13,6 +13,7 @@ void text_base::resize(rect_i r)
     attron(COLOR_PAIR(color_));
 
     // draw background
+    // TODO: this is basically code from color_rect, make it common?
     for (int x = lt.x; x <= rb.x; ++x) {
         for (int y = lt.y; y <= rb.y; ++y) {
             mvaddch(y, x, ' ');
