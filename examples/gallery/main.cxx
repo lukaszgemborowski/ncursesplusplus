@@ -31,9 +31,7 @@ int main()
     auto list = text_list {constraint::fill{}, 3, 4, 6};
     list.append("foo1");
     list.append("foo2");
-    list.append("foo3");
-    list.append("foo4");
-    list.append("foo5");
+    list.append({"foo3", "foo4", "foo5", "foo6"});
 
     auto vs = vsplit {
         constraint::fill {},
@@ -49,19 +47,17 @@ int main()
     sess.refresh();
 
     int c = 0;
-    int idx = 0;
-    list.select(idx);
+    list.select(0);
 
     while (c != 'q') {
         c = sess.getkey();
 
         if (c == 's') {
-            idx ++;
+            list.select(list.selected() + 1);
         } else if (c == 'w') {
-            idx --;
+            list.select(list.selected() - 1);
         }
 
-        list.select(idx);
         vs.resize(sess.size());
     }
 

@@ -44,9 +44,22 @@ void text_list_base::append(std::string item)
     items_.emplace_back(std::move(item));
 }
 
+void text_list_base::append(std::initializer_list<std::string> items)
+{
+    for (auto &e : items) {
+        items_.emplace_back(std::move(e));
+    }
+}
+
 void text_list_base::select(int idx)
 {
-    selected_ = idx;
+    if (idx >= 0 && idx < items_.size())
+        selected_ = idx;
+}
+
+int text_list_base::selected() const
+{
+    return selected_;
 }
 
 } // namespace ncurses::detail
