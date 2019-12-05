@@ -10,7 +10,7 @@ namespace ncursespp
 {
 
 // TODO: commonize code from hsplit and vsplit
-template<class Size, class Collection>
+template<class Collection, class Size = constraint::fill>
 class hsplit
 {
 public:
@@ -18,6 +18,10 @@ public:
     static constexpr auto count = std::tuple_size<Collection>::value;
 
     hsplit(Size, Collection &&splits)
+        : splits {std::move(splits)}
+    {}
+
+    hsplit(Collection &&splits)
         : splits {std::move(splits)}
     {}
 

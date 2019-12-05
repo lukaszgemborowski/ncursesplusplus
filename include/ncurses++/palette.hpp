@@ -80,6 +80,7 @@ struct palette : detail::palette_base
         return p.value;
     }
 
+private:
     std::tuple<Pairs...> pairs;
 };
 

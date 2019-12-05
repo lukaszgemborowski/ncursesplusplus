@@ -10,6 +10,7 @@ text_list_base::text_list_base(short c1, short c2, short s)
     , colorHighlight_ {s}
     , items_ {}
     , selected_ {-1}
+    , displayPosition_ {0}
 {
 }
 
@@ -29,7 +30,12 @@ void text_list_base::draw_one(rect_i r, int line) const
             return color2_;
     };
 
-    text_base t{items_[line], color(line)};
+    auto textIndex = line + displayPosition_;
+
+    if (textIndex >= items_.size())
+        return;
+
+    text_base t{items_[textIndex], color(textIndex)};
     t.resize(
         rect_i {
             {x, y + line}, {x2, y + line}
@@ -41,7 +47,7 @@ void text_list_base::do_resize(rect_i r)
 {
     auto h = r.height();
 
-    for (int line = 0; line < h && line < items_.size(); ++line) {
+    for (int line = 0; line <= h; ++line) {
         draw_one(r, line);
     }
 }
@@ -60,13 +66,22 @@ void text_list_base::append(std::initializer_list<std::string> items)
 
 void text_list_base::select(int idx)
 {
-    if (idx >= 0 && idx < items_.size()) {
-        auto old = selected_;
-        selected_ = idx;
+    if (idx < 0 || idx >= items_.size())
+        return;
 
-        draw_one(size(), old);
-        draw_one(size(), idx);
+    auto lastVisible = displayPosition_ + size().height();
+    selected_ = idx;
+
+    if (idx < displayPosition_) {
+        displayPosition_ = idx;
+    } else if (idx > lastVisible) {
+        displayPosition_ = idx - size().height();
     }
+
+    // TODO: else, can be optimized, only two lines
+    // could be redrawn
+
+    do_resize(size());
 }
 
 int text_list_base::selected() const

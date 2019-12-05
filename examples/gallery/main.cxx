@@ -6,44 +6,54 @@
 #include <ncurses++/text_list.hpp>
 #include <ncurses++/palette.hpp>
 
+#include <sstream>
+
+auto create_palette()
+{
+    using namespace ncursespp;
+    return palette {
+        color_pair{1_idx, color::black  , color::white},
+        color_pair{2_idx, color::black  , color::yellow},
+        color_pair{5_idx, color::black  , color::blue},
+        color_pair{3_idx, color::yellow , color::green},
+        color_pair{4_idx, color::blue   , color::magenta},
+        color_pair{6_idx, color::black  , color::green}
+    };
+}
+
 int main()
 {
     using namespace ncursespp;
     session sess;
 
-    auto pal = palette {
-        color_pair{1_idx, color::black, color::white},
-        color_pair{2_idx, color::black, color::yellow},
-        color_pair{5_idx, color::black, color::blue},
-        color_pair{3_idx, color::yellow, color::green},
-        color_pair{4_idx, color::blue, color::magenta},
-        color_pair{6_idx, color::black, color::green}
-    };
+    auto pal = create_palette();
 
-    auto hs = hsplit {
-        constraint::fixed<15> {},
+    auto list = text_list {constraint::fixed<5>{}, 3, 4, 6};
+
+    auto left_panel = hsplit {
+        constraint::fixed<20>{},
         std::forward_as_tuple(
-            color_rect{constraint::fixed<4>{}, pal.get(1_idx)},
-            color_rect{constraint::fill{}, pal.get(2_idx)}
+            list,
+            color_rect{constraint::fill{}, 1}
         )
     };
-
-    auto list = text_list {constraint::fill{}, 3, 4, 6};
-    list.append("foo1");
-    list.append("foo2");
-    list.append({"foo3", "foo4", "foo5", "foo6"});
 
     auto vs = vsplit {
         constraint::fill {},
         std::forward_as_tuple(
-            hs,
-            color_rect{constraint::fixed<3>{}, pal.get(5_idx)},
-            list
+            left_panel,
+            color_rect{constraint::fixed<1>{}, 5},
+            color_rect{constraint::fill{}, 1}
         )
     };
 
-    vs.resize(sess.size());
+    for (int i = 0; i < 10; i ++) {
+        std::stringstream ss;
+        ss << "text " << i;
+        list.append(ss.str());
+    }
 
+    vs.resize(sess.size());
     sess.refresh();
 
     int c = 0;
