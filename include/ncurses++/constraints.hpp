@@ -8,20 +8,22 @@ namespace ncursespp
 namespace constraint
 {
 
-template<int Size>
-struct fixed : std::integral_constant<int, Size> {
-};
-
-struct fill {
-};
-
-template<class>
-struct size_calculator;
-
-template<int Size>
-struct size_calculator<fixed<Size>>
+template<int Size, class Widget>
+struct fixed_impl
 {
-    static constexpr int calc(int &space)
+    fixed_impl(Widget &w)
+        : widget {std::move(w)}
+    {}
+
+    fixed_impl(Widget &&w)
+        : widget {std::move(w)}
+    {}
+
+    // widget interface
+    void resize(rect_i r) { widget.resize(r); }
+    constexpr auto size() const { return widget.size(); }
+
+    static constexpr auto calc(int &space)
     {
         if (space > Size) {
             space -= Size;
@@ -32,16 +34,44 @@ struct size_calculator<fixed<Size>>
             return t;
         }
     }
+
+    Widget &&widget;
 };
 
-template<>
-struct size_calculator<fill>
+template<int Size, class Widget>
+auto fixed(Widget &&widget)
 {
-    static constexpr int calc(int &)
+    return fixed_impl<Size, std::decay_t<Widget>>{std::move(widget)};
+}
+
+template<class Widget>
+struct fill_impl
+{
+    fill_impl(Widget &w)
+        : widget {std::move(w)}
+    {}
+
+    fill_impl(Widget &&w)
+        : widget {std::move(w)}
+    {}
+
+    // widget interface
+    void resize(rect_i r) { widget.resize(r); }
+    constexpr auto size() const { return widget.size(); }
+
+    static constexpr auto calc(int &)
     {
         return -1;
     }
+
+    Widget &&widget;
 };
+
+template<class Widget>
+auto fill(Widget &&widget)
+{
+    return fill_impl<std::decay_t<Widget>>{std::move(widget)};
+}
 
 } // namespace constraint
 } // namespace ncursespp

@@ -8,25 +8,18 @@
 namespace ncursespp
 {
 
-template<class Item, class Size>
-class item_list : public widget<item_list<Item, Size>>
+template<class Item>
+class item_list : public widget<item_list<Item>>
 {
 public:
-    using constraint_t = Size;
-
     item_list()
-        : selected_ {-1}
-        , displayPosition_ {0}
-    {}
-
-    item_list(Size)
         : selected_ {-1}
         , displayPosition_ {0}
     {}
 
     auto size() const
     {
-        return widget<item_list<Item, Size>>::size();
+        return widget<item_list<Item>>::size();
     }
 
     void draw_one(rect_i r, int line) const

@@ -39,13 +39,10 @@ private:
 
 } // namespace detail
 
-template<class Size = constraint::fill>
 class text_list : public detail::text_list_base
 {
 public:
-    using constraint_t = Size;
-
-    text_list(Size, short c1, short c2, short s)
+    text_list(short c1, short c2, short s)
         : text_list_base{c1, c2, s}
     {}
 };

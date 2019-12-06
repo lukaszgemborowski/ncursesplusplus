@@ -23,18 +23,9 @@ struct color_rect_base
 };
 } // detail
 
-template<
-    class Size = constraint::fill
->
 class color_rect : public detail::color_rect_base
 {
 public:
-    using constraint_t = Size;
-
-    color_rect(Size, short c)
-        : color_rect_base {c}
-    {}
-
     color_rect(short c)
         : color_rect_base {c}
     {}

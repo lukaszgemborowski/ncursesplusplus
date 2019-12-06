@@ -10,19 +10,14 @@ namespace ncursespp
 {
 
 // TODO: commonize code from hsplit and vsplit
-template<class Collection, class Size = constraint::fill>
+template<class... Collection>
 class hsplit
 {
 public:
-    using constraint_t = Size;
-    static constexpr auto count = std::tuple_size<Collection>::value;
+    static constexpr auto count = sizeof...(Collection);
 
-    hsplit(Size, Collection &&splits)
-        : splits {std::move(splits)}
-    {}
-
-    hsplit(Collection &&splits)
-        : splits {std::move(splits)}
+    hsplit(Collection&&... splits)
+        : splits {std::move(splits)...}
     {}
 
     void resize(rect_i size)
@@ -45,9 +40,7 @@ private:
         // calc will decrement space when the size is known
         auto apply_calc = [&](auto& S) {
             using SplitType = std::decay_t<decltype(S)>;
-            using ConstraintType = typename SplitType::constraint_t;
-
-            widths[idx] = constraint::size_calculator<ConstraintType>::calc(space);
+            widths[idx] = SplitType::calc(space);
             idx ++;
         };
 
@@ -75,7 +68,7 @@ private:
     }
 
 private:
-    Collection splits;
+    std::tuple<Collection...> splits;
 };
 
 } // namespace ncursespp

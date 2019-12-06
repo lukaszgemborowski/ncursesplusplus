@@ -38,30 +38,21 @@ auto create_palette()
 int main()
 {
     using namespace ncursespp;
+    namespace ct = constraint;
     session sess;
 
     auto pal = create_palette();
-
-    auto list = item_list<
-        empty_item,
-        constraint::fixed<12>
-    > {};
+    auto list = item_list<empty_item> {};
 
     auto left_panel = hsplit {
-        constraint::fixed<20>{},
-        std::forward_as_tuple(
-            list,
-            color_rect{constraint::fill{}, 5}
-        )
+        ct::fixed<15>(list),
+        ct::fill(color_rect{5})
     };
 
     auto vs = vsplit {
-        constraint::fill {},
-        std::forward_as_tuple(
-            left_panel,
-            color_rect{constraint::fixed<1>{}, 5},
-            color_rect{constraint::fill{}, 1}
-        )
+        ct::fixed<20>(left_panel),
+        ct::fixed<1>(color_rect{5}),
+        ct::fill(color_rect{1})
     };
 
     for (int i = 0; i < 10; i ++) {
