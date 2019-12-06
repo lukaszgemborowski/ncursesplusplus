@@ -1,41 +1,27 @@
 #ifndef NCURSESPP_COLOR_RECT_HPP
 #define NCURSESPP_COLOR_RECT_HPP
 
-#include <ncurses++/color.hpp>
 #include <ncurses++/rect.hpp>
-#include <ncurses++/constraints.hpp>
-#include <type_traits>
-#include <algorithm>
+#include <ncurses++/widget.hpp>
 
 namespace ncursespp
 {
 
-namespace detail
-{
-struct color_rect_base
-{
-    color_rect_base(short c)
-        : color_ {c}
-    {}
-
-    void redraw(rect_i r);
-    short color_;
-};
-} // detail
-
-class color_rect : public detail::color_rect_base
+class color_rect : public widget<color_rect>
 {
 public:
     color_rect(short c)
-        : color_rect_base {c}
+        : color_ {c}
     {}
 
-    void resize(rect_i r)
+    void do_resize(rect_i r)
     {
-        color_rect_base::redraw(r);
+        redraw(r);
     }
 
 private:
+    void redraw(rect_i r);
+    short color_;
 };
 
 } // namespace ncursespp
