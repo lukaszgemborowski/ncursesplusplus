@@ -7,6 +7,7 @@ set(
     palette.cxx
     text.cxx
     text_list.cxx
+    drawing.cxx
 )
 
 add_library(

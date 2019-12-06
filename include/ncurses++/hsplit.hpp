@@ -63,7 +63,7 @@ private:
                 S.resize(r);
 
             } else if (widths[idx] > 0) {
-                auto r = rect_i{{size.left_top.x, ypos}, {size.right_bottom.x, ypos + widths[idx] - 1}};
+                auto r = rect_i{{size.left_top.x, ypos}, {size.right_bottom.x, ypos + widths[idx]}};
                 ypos += widths[idx];
                 S.resize(r);
             }

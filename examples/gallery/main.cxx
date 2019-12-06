@@ -5,8 +5,22 @@
 #include <ncurses++/text.hpp>
 #include <ncurses++/text_list.hpp>
 #include <ncurses++/palette.hpp>
+#include <ncurses++/item_list.hpp>
+#include <ncurses++/drawing.hpp>
 
 #include <sstream>
+
+struct empty_item {
+    static constexpr auto height = 3;
+
+    void draw(int line, bool selected, ncursespp::rect_i r) const
+    {
+        auto color = line % 2 ? 1 : 2;
+        color = selected ? 3 : color;
+
+        ncursespp::draw::fill_rect(r, color);
+    }
+};
 
 auto create_palette()
 {
@@ -28,13 +42,16 @@ int main()
 
     auto pal = create_palette();
 
-    auto list = text_list {constraint::fixed<5>{}, 3, 4, 6};
+    auto list = item_list<
+        empty_item,
+        constraint::fixed<12>
+    > {};
 
     auto left_panel = hsplit {
         constraint::fixed<20>{},
         std::forward_as_tuple(
             list,
-            color_rect{constraint::fill{}, 1}
+            color_rect{constraint::fill{}, 5}
         )
     };
 
@@ -48,9 +65,7 @@ int main()
     };
 
     for (int i = 0; i < 10; i ++) {
-        std::stringstream ss;
-        ss << "text " << i;
-        list.append(ss.str());
+        list.append(empty_item{});
     }
 
     vs.resize(sess.size());
