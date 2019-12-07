@@ -73,7 +73,22 @@ public:
         do_resize(size());
     }
 
-    auto selected() const
+    void select_up()
+    {
+        select(selected_index() - 1);
+    }
+
+    void select_down()
+    {
+        select(selected_index() + 1);
+    }
+
+    auto& selected()
+    {
+        return items_[selected_index()];
+    }
+
+    auto selected_index() const
     {
         return selected_;
     }

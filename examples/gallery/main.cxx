@@ -69,9 +69,9 @@ int main()
         c = sess.getkey();
 
         if (c == 's') {
-            list.select(list.selected() + 1);
+            list.select_down();
         } else if (c == 'w') {
-            list.select(list.selected() - 1);
+            list.select_up();
         }
     }
 
