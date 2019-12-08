@@ -42,7 +42,10 @@ struct file_display : public ncursespp::widget<file_display>
 };
 
 struct list_item_file {
-    static constexpr auto height = 1;
+    constexpr auto height() const
+    {
+        return 1;
+    }
 
     list_item_file(list_item_file &&) = default;
 

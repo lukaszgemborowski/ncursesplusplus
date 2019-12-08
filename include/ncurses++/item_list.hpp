@@ -22,9 +22,8 @@ public:
         return widget<item_list<Item>>::size();
     }
 
-    void draw_one(rect_i r, int line) const
+    void draw_one(rect_i r, int itemIndex, int y_pos) const
     {
-        auto itemIndex = line + displayPosition_;
         auto x1 = r.left_top.x;
         auto x2 = r.right_bottom.x;
         auto y  = r.left_top.y;
@@ -37,18 +36,21 @@ public:
             itemIndex,
             itemIndex == selected_,
             rect_i {
-                {x1, y + (Item::height * line)},
-                {x2, y + (Item::height * (line + 1)) - 1}
+                {x1, y + y_pos},
+                {x2, y + y_pos + item.height()}
             }
         );
     }
 
     void do_resize(rect_i r)
     {
-        auto visibleItems = size().height() / Item::height;
+        auto visibleItems = visible_items(r.height());
+        auto y_pos = 0;
+        auto itemIndex = displayPosition_;
 
-        for (int i = 0; i < visibleItems; i++) {
-            draw_one(r, i);
+        for (int i = 0; i < visibleItems; i++, itemIndex ++) {
+            draw_one(r, itemIndex, y_pos);
+            y_pos += items_[itemIndex].height();
         }
     }
 
@@ -57,9 +59,8 @@ public:
         if (idx < 0 || idx >= items_.size())
             return;
 
-        auto visibleItems = size().height() / Item::height;
+        auto visibleItems = visible_items();
         auto lastVisible = displayPosition_ + visibleItems - 1;
-
         selected_ = idx;
 
         if (idx < displayPosition_) {
@@ -96,6 +97,33 @@ public:
     void append(Item &&item)
     {
         items_.emplace_back (std::move(item));
+    }
+
+private:
+    auto visible_items() const
+    {
+        return visible_items(size().height());
+    }
+
+    auto visible_items(int current_height) const
+    {
+        auto cumulative = 0;
+        auto count = 0;
+
+        for (auto i = displayPosition_;
+             i < items_.size();
+             i ++)
+        {
+            cumulative += items_[i].height();
+
+            if (cumulative <= current_height) {
+                ++ count;
+            } else {
+                break;
+            }
+        }
+
+        return count;
     }
 
 private:

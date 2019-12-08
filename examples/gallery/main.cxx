@@ -11,7 +11,10 @@
 #include <sstream>
 
 struct empty_item {
-    static constexpr auto height = 3;
+    constexpr auto height() const
+    {
+        return 3;
+    }
 
     void draw(int line, bool selected, ncursespp::rect_i r) const
     {

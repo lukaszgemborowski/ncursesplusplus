@@ -53,18 +53,18 @@ struct rect
     }
 };
 
+using rect_i = rect<int>;
+
+} // namespace ncursespp
+
 #ifndef NDEBUG
 template<class T>
-std::ostream& operator << (std::ostream& os, ncursespp::rect<T> &r)
+std::ostream& operator << (std::ostream& os, const ncursespp::rect<T> &r)
 {
     os << "r{{" << r.left_top.x << ", " << r.left_top.y << "}, {" <<
             r.right_bottom.x << ", " << r.right_bottom.y << "}}";
     return os;
 }
 #endif // !NDEBUG
-
-using rect_i = rect<int>;
-
-} // namespace ncursespp
 
 #endif // NCURSESPP_RECT_HPP
