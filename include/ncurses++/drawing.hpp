@@ -9,7 +9,7 @@ namespace ncursespp
 struct draw
 {
     static void fill_rect(rect_i r, short color);
-    static void text(const std::string &text, rect_i r, short color);
+    static int text(const std::string &text, rect_i r, short color);
 };
 
 } // namespace ncursespp
