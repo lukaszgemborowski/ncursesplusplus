@@ -7,9 +7,14 @@
 
 #include <sstream>
 #include <fstream>
-#include <experimental/filesystem>
 
-namespace fs = std::experimental::filesystem;
+#ifdef CXX_STD_FS
+    #include <filesystem>
+    namespace fs = std::filesystem;
+#else
+    #include <experimental/filesystem>
+    namespace fs = std::experimental::filesystem;
+#endif
 
 struct file_display : public ncursespp::widget<file_display>
 {
