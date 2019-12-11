@@ -5,6 +5,7 @@
 #include <ncurses++/constraints.hpp>
 #include <type_traits>
 #include <array>
+#include <tuple>
 
 namespace ncursespp
 {
