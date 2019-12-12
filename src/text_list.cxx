@@ -20,7 +20,7 @@ void text_list_base::draw_one(rect_i r, int line) const
     auto y = r.left_top.y;
     auto x2 = r.right_bottom.x;
 
-    auto color = [this](int n) {
+    auto color = [this](auto n) {
         if (n == selected_)
             return colorHighlight_;
         if (n & 1)
@@ -29,7 +29,7 @@ void text_list_base::draw_one(rect_i r, int line) const
             return color2_;
     };
 
-    auto textIndex = line + displayPosition_;
+    auto textIndex = static_cast<std::size_t>(line + displayPosition_);
 
     if (textIndex >= items_.size())
         return;
@@ -65,7 +65,7 @@ void text_list_base::append(std::initializer_list<std::string> items)
 
 void text_list_base::select(int idx)
 {
-    if (idx < 0 || idx >= items_.size())
+    if (idx < 0 || static_cast<std::size_t>(idx) >= items_.size())
         return;
 
     auto lastVisible = displayPosition_ + size().height();
