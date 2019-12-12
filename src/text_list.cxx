@@ -20,7 +20,7 @@ void text_list_base::draw_one(rect_i r, int line) const
     auto y = r.left_top.y;
     auto x2 = r.right_bottom.x;
 
-    auto color = [this](auto n) {
+    auto color = [this](int n) {
         if (n == selected_)
             return colorHighlight_;
         if (n & 1)
