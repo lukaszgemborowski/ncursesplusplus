@@ -31,3 +31,10 @@ target_link_libraries(
     PUBLIC
     ${CURSES_LIBRARIES}
 )
+
+target_compile_options(
+    ncurses++
+    PRIVATE
+    -Wall
+    -Werror
+)

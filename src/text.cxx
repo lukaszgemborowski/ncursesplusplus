@@ -20,7 +20,7 @@ void text_base::resize(rect_i r)
         }
     }
 
-    for (auto x = 0; x < width && x < text_.size(); ++x) {
+    for (auto x = 0; x < width && static_cast<std::size_t>(x) < text_.size(); ++x) {
         mvaddch(lt.y, x + lt.x, text_[x]);
     }
 

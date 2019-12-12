@@ -28,7 +28,7 @@ int draw::text(const std::string &text, rect_i r, short color)
 
     attron(COLOR_PAIR(color));
     for (auto i = 0u;
-         i < r.width() && i < text.size();
+         static_cast<int>(i) < r.width() && i < text.size();
          ++i) {
         mvaddch(lt.y, lt.x + i, text[i]);
         res ++;
