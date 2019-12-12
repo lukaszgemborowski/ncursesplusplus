@@ -2,6 +2,7 @@
 #define NCURSESPP_TEXT_HPP
 
 #include <ncurses++/rect.hpp>
+#include <ncurses++/widget.hpp>
 #include <string>
 
 namespace ncursespp
@@ -9,7 +10,7 @@ namespace ncursespp
 namespace detail
 {
 
-class text_base
+class text_base : public widget<text_base>
 {
 public:
     text_base(std::string text, short c)
@@ -17,7 +18,7 @@ public:
         , color_ {c}
     {}
 
-    void resize(rect_i r);
+    void do_resize(rect_i r);
 
 private:
     std::string text_;
@@ -26,13 +27,10 @@ private:
 
 } // namespace detail
 
-template<class Size>
 class text : public detail::text_base
 {
 public:
-    using constraint_t = Size;
-
-    text(Size, std::string text, short c)
+    text(std::string text, short c)
         : text_base {std::move(text), c}
     {
     }

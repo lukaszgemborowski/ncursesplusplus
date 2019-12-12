@@ -55,7 +55,7 @@ int main()
     auto vs = vsplit {
         ct::fixed<20>(left_panel),
         ct::fixed<1>(color_rect{5}),
-        ct::fill(color_rect{1})
+        ct::fill(text{"Lorem ipsum", 1})
     };
 
     for (int i = 0; i < 10; i ++) {

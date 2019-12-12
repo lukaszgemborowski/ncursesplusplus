@@ -4,7 +4,7 @@
 namespace ncursespp::detail
 {
 
-void text_base::resize(rect_i r)
+void text_base::do_resize(rect_i r)
 {
     auto lt = r.left_top;
     auto rb = r.right_bottom;
