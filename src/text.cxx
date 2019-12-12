@@ -1,10 +1,10 @@
 #include <ncurses++/text.hpp>
 #include <ncurses.h>
 
-namespace ncursespp::detail
+namespace ncursespp
 {
 
-void text_base::do_resize(rect_i r)
+void text::do_resize(rect_i r)
 {
     auto lt = r.left_top;
     auto rb = r.right_bottom;
@@ -27,4 +27,4 @@ void text_base::do_resize(rect_i r)
     attroff(COLOR_PAIR(color_));
 }
 
-} // namespace ncurses::detail
+} // namespace ncurses
