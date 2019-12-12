@@ -18,6 +18,8 @@ constexpr short color_enum_to_ncurses(ncursespp::color c)
         case color::cyan: return COLOR_CYAN;
         case color::white: return COLOR_WHITE;
     };
+
+    return COLOR_WHITE;
 }
 }
 
