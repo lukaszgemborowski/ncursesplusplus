@@ -34,7 +34,7 @@ void text_list_base::draw_one(rect_i r, int line) const
     if (textIndex >= items_.size())
         return;
 
-    text_base t{items_[textIndex], color(textIndex)};
+    text t{items_[textIndex], color(textIndex)};
     t.resize(
         rect_i {
             {x, y + line}, {x2, y + line}

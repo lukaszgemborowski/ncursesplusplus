@@ -38,6 +38,12 @@ auto create_palette()
     };
 }
 
+std::string generate_text()
+{
+    return R"(Lorem ipsum dolor sit amet, consectetur adipiscing elit. In laoreet, arcu ut porttitor viverra, massa libero molestie
+risus, vel commodo lorem velit sed ex. Cras porta neque id)";
+}
+
 int main()
 {
     using namespace ncursespp;
@@ -55,7 +61,7 @@ int main()
     auto vs = vsplit {
         ct::fixed<20>(left_panel),
         ct::fixed<1>(color_rect{5}),
-        ct::fill(color_rect{1})
+        ct::fill(text{generate_text(), 1})
     };
 
     for (int i = 0; i < 10; i ++) {

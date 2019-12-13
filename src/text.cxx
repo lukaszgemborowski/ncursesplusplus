@@ -1,30 +1,41 @@
 #include <ncurses++/text.hpp>
+#include <ncurses++/drawing.hpp>
 #include <ncurses.h>
 
-namespace ncursespp::detail
+namespace ncursespp
 {
 
-void text_base::resize(rect_i r)
+void text::do_resize(rect_i r)
 {
-    auto lt = r.left_top;
-    auto rb = r.right_bottom;
-    auto width = r.width();
+    draw::fill_rect(r, color_);
 
+    auto p = r.left_top;
+    auto i = 0u;
     attron(COLOR_PAIR(color_));
 
-    // draw background
-    // TODO: this is basically code from color_rect, make it common?
-    for (int x = lt.x; x <= rb.x; ++x) {
-        for (int y = lt.y; y <= rb.y; ++y) {
-            mvaddch(y, x, ' ');
+    while (text_[i] != '\0') {
+        if (p.y > r.right_bottom.y) {
+            break;
         }
-    }
 
-    for (auto x = 0; x < width && static_cast<std::size_t>(x) < text_.size(); ++x) {
-        mvaddch(lt.y, x + lt.x, text_[x]);
+        if (text_[i] == '\n') {
+            p.x = r.left_top.x;
+            p.y ++;
+            i ++;
+            continue;
+        }
+
+        if (p.x > r.right_bottom.x) {
+            i ++;
+            continue;
+        }
+
+        mvaddch(p.y, p.x, text_[i]);
+        i ++;
+        p.x ++;
     }
 
     attroff(COLOR_PAIR(color_));
 }
 
-} // namespace ncurses::detail
+} // namespace ncurses
