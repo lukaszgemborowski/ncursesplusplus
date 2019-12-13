@@ -28,12 +28,12 @@ auto attributes_enum_to_ncurses(ncursespp::attribute attr)
 namespace ncursespp
 {
 
-void draw::fill_rect(rect_i r, short color)
+void draw::fill_rect(rect_i r, color_index color)
 {
     auto lt = r.left_top;
     auto rb = r.right_bottom;
 
-    attron(COLOR_PAIR(color));
+    attron(COLOR_PAIR(color.index));
 
     for (int x = lt.x; x <= rb.x; ++x) {
         for (int y = lt.y; y <= rb.y; ++y) {
@@ -41,23 +41,23 @@ void draw::fill_rect(rect_i r, short color)
         }
     }
 
-    attroff(COLOR_PAIR(color));
+    attroff(COLOR_PAIR(color.index));
 }
 
-int draw::text(const std::string &text, rect_i r, short color)
+int draw::text(const std::string &text, rect_i r, color_index color)
 {
     auto lt = r.left_top;
     int res = 0;
     fill_rect(r, color); // TODO: optimize!
 
-    attron(COLOR_PAIR(color));
+    attron(COLOR_PAIR(color.index));
     for (auto i = 0u;
          static_cast<int>(i) < r.width() && i < text.size();
          ++i) {
         mvaddch(lt.y, lt.x + i, text[i]);
         res ++;
     }
-    attroff(COLOR_PAIR(color));
+    attroff(COLOR_PAIR(color.index));
     return res;
 }
 

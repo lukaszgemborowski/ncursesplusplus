@@ -4,7 +4,7 @@
 namespace ncursespp::detail
 {
 
-text_list_base::text_list_base(short c1, short c2, short s)
+text_list_base::text_list_base(color_index c1, color_index c2, color_index s)
     : color1_ {c1}
     , color2_ {c2}
     , colorHighlight_ {s}

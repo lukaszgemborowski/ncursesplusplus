@@ -3,6 +3,7 @@
 
 #include <ncurses++/rect.hpp>
 #include <ncurses++/widget.hpp>
+#include <ncurses++/palette.hpp>
 #include <string>
 
 namespace ncursespp
@@ -11,7 +12,7 @@ namespace ncursespp
 class text : public widget<text>
 {
 public:
-    text(std::string text, short c)
+    text(std::string text, color_index c)
         : text_ {std::move(text)}
         , color_ {c}
     {
@@ -21,7 +22,7 @@ public:
 
 private:
     std::string text_;
-    short color_;
+    color_index color_;
 };
 
 } // namespace ncursespp
