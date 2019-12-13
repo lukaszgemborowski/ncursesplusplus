@@ -18,8 +18,10 @@ struct empty_item {
 
     void draw(int line, bool selected, ncursespp::rect_i r) const
     {
-        auto color = line % 2 ? 1 : 2;
-        color = selected ? 3 : color;
+        using namespace ncursespp;
+
+        auto color = line % 2_idx ? 1_idx : 2_idx;
+        color = selected ? 3_idx : color;
 
         ncursespp::draw::fill_rect(r, color);
     }
@@ -55,13 +57,13 @@ int main()
 
     auto left_panel = hsplit {
         ct::fixed<15>(list),
-        ct::fill(color_rect{5})
+        ct::fill(color_rect{5_idx})
     };
 
     auto vs = vsplit {
         ct::fixed<20>(left_panel),
-        ct::fixed<1>(color_rect{5}),
-        ct::fill(text{generate_text(), 1})
+        ct::fixed<1>(color_rect{5_idx}),
+        ct::fill(text{generate_text(), 1_idx})
     };
 
     for (int i = 0; i < 10; i ++) {

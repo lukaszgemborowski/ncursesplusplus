@@ -3,6 +3,7 @@
 
 #include <ncurses++/rect.hpp>
 #include <ncurses++/widget.hpp>
+#include <ncurses++/palette.hpp>
 
 namespace ncursespp
 {
@@ -10,7 +11,7 @@ namespace ncursespp
 class color_rect : public widget<color_rect>
 {
 public:
-    color_rect(short c)
+    color_rect(color_index c)
         : color_ {c}
     {}
 
@@ -21,7 +22,7 @@ public:
 
 private:
     void redraw(rect_i r);
-    short color_;
+    color_index color_;
 };
 
 } // namespace ncursespp

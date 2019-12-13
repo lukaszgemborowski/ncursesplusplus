@@ -11,7 +11,7 @@ void text::do_resize(rect_i r)
 
     auto p = r.left_top;
     auto i = 0u;
-    attron(COLOR_PAIR(color_));
+    attron(COLOR_PAIR(color_.index));
 
     while (text_[i] != '\0') {
         if (p.y > r.right_bottom.y) {
@@ -35,7 +35,7 @@ void text::do_resize(rect_i r)
         p.x ++;
     }
 
-    attroff(COLOR_PAIR(color_));
+    attroff(COLOR_PAIR(color_.index));
 }
 
 } // namespace ncurses

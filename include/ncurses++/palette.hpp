@@ -9,11 +9,14 @@ namespace ncursespp
 {
 
 template<int I>
+struct color_index_constant : std::integral_constant<int, I> {};
+
+template<int I>
 struct color_pair
 {
     template<int Index>
     constexpr color_pair(
-            std::integral_constant<int, Index>,
+            color_index_constant<Index>,
             color FG,
             color BG
         )
@@ -24,6 +27,19 @@ struct color_pair
     static constexpr int pair = I;
     color fg;
     color bg;
+};
+
+struct color_index
+{
+    template<int Index> color_index(color_index_constant<Index>)
+        : index {Index}
+    {}
+
+    color_index(int index)
+        : index (index)
+    {}
+
+    int index;
 };
 
 template<class IntConst>
@@ -40,7 +56,7 @@ constexpr int accumulate_chars(std::initializer_list<char> chs)
 template<char... C>
 constexpr auto operator"" _idx ()
 {
-    return std::integral_constant<int, accumulate_chars({C...})>{};
+    return color_index_constant<accumulate_chars({C...})>{};
 }
 
 namespace detail
