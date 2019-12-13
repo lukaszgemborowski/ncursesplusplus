@@ -1,4 +1,5 @@
 #include <ncurses++/text.hpp>
+#include <ncurses++/drawing.hpp>
 #include <ncurses.h>
 
 namespace ncursespp
@@ -7,18 +8,11 @@ namespace ncursespp
 void text::do_resize(rect_i r)
 {
     auto lt = r.left_top;
-    auto rb = r.right_bottom;
     auto width = r.width();
 
     attron(COLOR_PAIR(color_));
 
-    // draw background
-    // TODO: this is basically code from color_rect, make it common?
-    for (int x = lt.x; x <= rb.x; ++x) {
-        for (int y = lt.y; y <= rb.y; ++y) {
-            mvaddch(y, x, ' ');
-        }
-    }
+    draw::fill_rect(r, color_);
 
     for (auto x = 0; x < width && static_cast<std::size_t>(x) < text_.size(); ++x) {
         mvaddch(lt.y, x + lt.x, text_[x]);
