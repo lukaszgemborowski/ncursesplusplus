@@ -50,5 +50,10 @@ void palette_base::init_pair(short pair, color f, color b)
     assert(result == OK);
 }
 
+void palette_base::redefine(color c, short r, short g, short b)
+{
+    init_color(color_enum_to_ncurses(c), r, g, b);
+}
+
 } // namespace detail
 } // namespace ncursespp

@@ -53,6 +53,8 @@ int main()
     session sess;
 
     auto pal = create_palette();
+    pal.redefine(color::white, 500, 0, 0);
+    pal.apply();
     auto list = item_list<empty_item> {};
 
     auto left_panel = hsplit {
