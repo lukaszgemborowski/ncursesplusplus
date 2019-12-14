@@ -64,6 +64,9 @@ namespace detail
 
 struct palette_base
 {
+public:
+    void redefine(color c, short r, short g, short b);
+
 protected:
     palette_base();
 
@@ -84,16 +87,28 @@ struct palette : detail::palette_base
         (do_init(p), ...);
     }
 
-    template<class Pair>
-    void do_init(Pair p)
+    void apply()
     {
-        palette_base::init_pair(p.pair, p.fg, p.bg);
+        apply_impl(std::make_index_sequence<sizeof...(Pairs)>{});
     }
 
     template<class Pair>
     constexpr short get(Pair p) const
     {
         return p.value;
+    }
+
+private:
+    template<std::size_t... I>
+    void apply_impl(std::index_sequence<I...>)
+    {
+        (do_init(std::get<I>(pairs)), ...);
+    }
+
+    template<class Pair>
+    void do_init(Pair p)
+    {
+        palette_base::init_pair(p.pair, p.fg, p.bg);
     }
 
 private:
